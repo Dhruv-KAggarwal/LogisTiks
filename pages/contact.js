@@ -24,6 +24,15 @@ const Contact = () => {
     <div className="bg-[#fdfff0] p-8 min-h-screen">
       <h1 className="text-center text-3xl font-bold mb-8">Contact Us</h1>
 
+      {/* Contact Information Section */}
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
+        <p className="text-lg mb-2">Phone: +1 (555) 123-4567</p>
+        <p className="text-lg mb-2">Email: contact@example.com</p>
+        <p className="text-lg mb-2">Business Hours: Mon-Fri, 9 AM - 5 PM</p>
+      </div>
+
+      {/* Form Section */}
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

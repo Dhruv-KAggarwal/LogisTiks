@@ -1,4 +1,3 @@
-// /pages/api/uploadImage.js
 import { MongoClient, GridFSBucket } from 'mongodb';
 import nextConnect from 'next-connect';
 import multer from 'multer';
@@ -14,7 +13,6 @@ const handler = nextConnect({
   .use(upload.single('file'))
   .post(async (req, res) => {
     const file = req.file;
-
     if (!file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
