@@ -16,7 +16,7 @@ export default function Login() {
     try {
       const response = await axios.post('/api/login', { username, password });
       document.cookie = `authToken=${response.data.token}; Path=/; HttpOnly`;
-      router.push('/protected-page'); // Redirect to a protected page after login
+      router.push('/protected/home'); // Redirect to a protected page after login
     } catch (err) {
       setError('Invalid username or password');
     }
