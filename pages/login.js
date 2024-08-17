@@ -1,4 +1,3 @@
-// pages/login.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -9,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const { message } = router.query; // Capture the message from the query params
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +26,7 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4">Login</h1>
+        {message && <p className="text-red-500 mb-4">{message}</p>} {/* Display the message if it exists */}
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

@@ -1,9 +1,15 @@
-// middleware.js
 import { NextResponse } from 'next/server';
 
 export function middleware(req) {
-  // Simulate an authenticated state
   const url = req.nextUrl.clone();
-  url.pathname = '/protected-page'; // Redirect to a protected page
-  return NextResponse.redirect(url);
+  const token = req.cookies.get('auth_token'); // Adjust based on how you store the auth token
+
+  if (!token) {
+    // Redirect to the login page with a message if the user is not authenticated
+    url.pathname = '/login';
+    url.searchParams.set('message', 'Please log in first');
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }

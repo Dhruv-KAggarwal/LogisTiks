@@ -1,4 +1,3 @@
-// pages/mytrucks.js
 import Link from 'next/link';
 import { MongoClient } from 'mongodb';
 import Image from 'next/image';
@@ -8,8 +7,9 @@ const MyTrucks = ({ trucks = [] }) => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">My Trucks</h1>
       <div className="flex justify-end mb-4">
-        <Link href="/add-truck">
-          <button className="mb-4 p-2 bg-blue-500 text-white rounded">Add Truck</button>
+        {/* Add Your Truck button */}
+        <Link href="/protected/add-truck">
+          <button className="p-2 bg-green-500 text-white rounded">Add Your Truck</button>
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-4">
