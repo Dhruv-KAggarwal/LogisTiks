@@ -125,6 +125,12 @@ const Packages = () => {
             See Trucks
           </button>
         </Link>
+        
+        <Link href="/add-packages">
+          <button className="bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-blue-700">
+            Add Packages
+          </button>
+        </Link>
       </div>
     </div>
   );
