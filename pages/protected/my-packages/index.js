@@ -8,7 +8,7 @@ const MyTrucks = ({ trucks = [] }) => {
       <h1 className="text-2xl font-bold mb-4">My Packages</h1>
       <div className="flex justify-end mb-4">
         {/* Add Your Truck button */}
-        <Link href="/protected/add-truck">
+        <Link href="/protected/add-packages">
           <button className="p-2 bg-green-500 text-white rounded">Add Your Packages</button>
         </Link>
       </div>
@@ -57,7 +57,7 @@ export async function getServerSideProps(context) {
       useUnifiedTopology: true,
     });
     const db = client.db('our-database-name');
-    const trucks = await db.collection('trucks').find({ userId }).toArray();
+    const trucks = await db.collection('packages').find({ userId }).toArray();
     client.close();
 
     return {

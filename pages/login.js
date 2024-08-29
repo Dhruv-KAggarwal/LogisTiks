@@ -6,6 +6,7 @@ import 'tailwindcss/tailwind.css';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userID, setUserID] = useState(''); // Added state for userID
   const [error, setError] = useState('');
   const router = useRouter();
   const { message } = router.query; // Capture the message from the query params
@@ -14,11 +15,11 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/login', { username, password });
+      const response = await axios.post('/api/login', { username, password, userID }); // Include userID in the request body
       document.cookie = `authToken=${response.data.token}; Path=/; HttpOnly`;
       router.push('/protected/home'); // Redirect to a protected page after login
     } catch (err) {
-      setError('Invalid username or password');
+      setError('Invalid username, password, or userID');
     }
   };
 
@@ -45,6 +46,16 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border rounded"
+              required
+            />
+          </div>
+          <div className="mb-4"> {/* New input for userID */}
+            <label className="block text-gray-700">User ID / Phone Number</label>
+            <input
+              type="text"
+              value={userID}
+              onChange={(e) => setUserID(e.target.value)}
               className="w-full px-3 py-2 border rounded"
               required
             />
