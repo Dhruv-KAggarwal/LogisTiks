@@ -10,6 +10,12 @@ export default function Trucks({ trucks = [] }) {
         <Link href="/add-truck">
           <button className="mb-4 p-2 bg-blue-500 text-white rounded">Add Truck</button>
         </Link>
+        <Link href="/addbid">
+          <button className="mb-4 p-2 bg-blue-500 ml-5 text-white rounded">See Bids</button>
+        </Link>
+        <Link href="/packages">
+          <button className="mb-4 p-2 bg-blue-500 ml-5 text-white rounded">See Packages</button>
+        </Link>
       </div>
       <div className="grid grid-cols-1 gap-4">
         {trucks.length > 0 ? (
@@ -54,7 +60,7 @@ export default function Trucks({ trucks = [] }) {
                 </div>
                 <div className="text-gray-600 mb-2 flex justify-between">
                   <div>
-                    <button className="bg-green-500 text-white p-2 rounded">View Seats</button>
+                    
                   </div>
                   <div>
                     <Link href={`/truck/${truck._id}`}>
