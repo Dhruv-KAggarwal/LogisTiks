@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const { username, password } = req.body;
 
   // Simple authentication check
-  if (username === 'test' && password === 'test') {
+  if (username === 'test' && password === 'test' && useID ===='1111') {
     // Generate a token (for simplicity, using a dummy token)
     const token = 'dummy-token'; // Replace with actual token generation
 
