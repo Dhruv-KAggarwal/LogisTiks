@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    const truck = await db.collection('create-account').findOne({ _id: new ObjectId(id) });
+    const createaccount = await db.collection('create-account').findOne({ _id: new ObjectId(id) });
     res.status(200).json(data);
   } else {
     res.status(405).end(); // Method Not Allowed

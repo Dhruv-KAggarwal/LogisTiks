@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function AddTruckForm() {
+export default function CreateAccountForm() {
   const [formData, setFormData] = useState({
     PhoneNo: '',
     Name: ''
   });
-
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -27,21 +28,25 @@ export default function AddTruckForm() {
     });
 
     if (response.ok) {
-      router.push('/create-account');
+      setSuccessMessage('Account created successfully!');
+      setErrorMessage('');
+      router.push('/create-account'); // Redirect after successful submission
     } else {
-      console.error('Failed to submit form data');
+      const errorData = await response.json();
+      setErrorMessage(`Failed to submit form data: ${errorData.message}`);
+      setSuccessMessage('');
     }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Add Truck</h1>
+      <h1 className="text-2xl font-bold mb-4">Create Account</h1>
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="grid grid-cols-1 gap-4 mb-4">
           <input
             name="PhoneNo"
             type="text"
-            placeholder="Operator"
+            placeholder="PhoneNo"
             value={formData.PhoneNo}
             onChange={handleChange}
             className="p-2 border rounded"
@@ -50,17 +55,25 @@ export default function AddTruckForm() {
           <input
             name="Name"
             type="text"
-            placeholder="Departure"
+            placeholder="Name"
             value={formData.Name}
             onChange={handleChange}
             className="p-2 border rounded"
             required
           />
-          
         </div>
-        <button type="submit" className="p-2 bg-blue-500 text-white mr-10 rounded">Add Truck</button>
-        <button type="submit" className="p-2 bg-blue-500 ml-32 text-white rounded">Already Have an Account</button>
+        <button type="submit" className="p-2 bg-blue-500 text-white mr-10 rounded">
+          Submit
+        </button>
+        <button type="button" className="p-2 bg-blue-500 text-white mr-10 rounded">
+          Add Truck
+        </button>
+        <button type="button" className="p-2 bg-blue-500 ml-10 text-white rounded">
+          Already Have an Account
+        </button>
       </form>
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
     </div>
   );
 }

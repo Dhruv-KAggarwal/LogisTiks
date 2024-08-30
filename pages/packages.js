@@ -14,9 +14,14 @@ const Packages = () => {
 
   useEffect(() => {
     const fetchPackages = async () => {
-      const response = await fetch('/api/packages');
-      const data = await response.json();
-      setPackages(data);
+      try {
+        const response = await fetch('/api/packages');
+        if (!response.ok) throw new Error('Failed to fetch packages');
+        const data = await response.json();
+        setPackages(data);
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      }
     };
 
     fetchPackages();
@@ -24,18 +29,22 @@ const Packages = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch('/api/packages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ from, to, date, route }),
-    });
+    try {
+      await fetch('/api/packages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ from, to, date, route }),
+      });
 
-    // Refresh packages list
-    const response = await fetch('/api/packages');
-    const data = await response.json();
-    setPackages(data);
+      // Refresh packages list
+      const response = await fetch('/api/packages');
+      const data = await response.json();
+      setPackages(data);
+    } catch (error) {
+      console.error('Error submitting package:', error);
+    }
   };
 
   return (
@@ -137,7 +146,7 @@ const Packages = () => {
 };
 
 // Trucks Component
-const Trucks = ({ trucks = [] }) => {
+const Trucks = ({ packages = [] }) => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Available Trucks</h1>
@@ -147,44 +156,44 @@ const Trucks = ({ trucks = [] }) => {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        {trucks.length > 0 ? (
-          trucks.map((truck) => (
-            <div key={truck._id} className="border p-4 rounded shadow-lg flex flex-col md:flex-row">
+        {packages.length > 0 ? (
+          packages.map((pkg) => (
+            <div key={pkg._id} className="border p-4 rounded shadow-lg flex flex-col md:flex-row">
               <div className="md:w-1/4 flex justify-center items-center">
                 <Image src="" alt="Truck Logo" width={100} height={100} />
               </div>
               <div className="md:w-3/4 pl-4">
-                <h2 className="text-xl font-bold mb-2">{truck.operator}</h2>
+                <h2 className="text-xl font-bold mb-2">{pkg.operator}</h2>
                 <div className="text-gray-600 mb-2 flex justify-between">
                   <div>
-                    <span className="font-semibold">Departure: </span>{truck.departure}
+                    <span className="font-semibold">Departure: </span>{pkg.departure}
                   </div>
                   <div>
-                    <span className="font-semibold">Duration: </span>{truck.duration}
+                    <span className="font-semibold">Duration: </span>{pkg.duration}
                   </div>
                 </div>
                 <div className="text-gray-600 mb-2 flex justify-between">
                   <div>
-                    <span className="font-semibold">Arrival: </span>{truck.arrival}
+                    <span className="font-semibold">Arrival: </span>{pkg.arrival}
                   </div>
                   <div>
-                    <span className="font-semibold">Date: </span>{truck.date}
-                  </div>
-                </div>
-                <div className="text-gray-600 mb-2 flex justify-between">
-                  <div>
-                    <span className="font-semibold">Rating: </span>{truck.rating}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Price: </span>{truck.price}
+                    <span className="font-semibold">Date: </span>{pkg.date}
                   </div>
                 </div>
                 <div className="text-gray-600 mb-2 flex justify-between">
                   <div>
-                    <span className="font-semibold">Seats Available: </span>{truck.seatsAvailable}
+                    <span className="font-semibold">Rating: </span>{pkg.rating}
                   </div>
                   <div>
-                    <span className="font-semibold">Single Seats: </span>{truck.singleSeats}
+                    <span className="font-semibold">Price: </span>{pkg.price}
+                  </div>
+                </div>
+                <div className="text-gray-600 mb-2 flex justify-between">
+                  <div>
+                    <span className="font-semibold">Seats Available: </span>{pkg.seatsAvailable}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Single Seats: </span>{pkg.singleSeats}
                   </div>
                 </div>
                 <div className="text-gray-600 mb-2 flex justify-between">
@@ -192,7 +201,7 @@ const Trucks = ({ trucks = [] }) => {
                     <button className="bg-green-500 text-white p-2 rounded">View Seats</button>
                   </div>
                   <div>
-                    <Link href={`/truck/${truck._id}`}>
+                    <Link href={`/packages/${pkg._id}`}>
                       <button className="bg-blue-500 text-white p-2 rounded">View Details</button>
                     </Link>
                   </div>
@@ -201,29 +210,29 @@ const Trucks = ({ trucks = [] }) => {
             </div>
           ))
         ) : (
-          <p>No trucks available.</p>
+          <p>No packages available.</p>
         )}
       </div>
     </div>
   );
 };
 
-// Fetch Trucks Data
+// Fetch Packages Data
 export async function getServerSideProps() {
   try {
     const client = await clientPromise;
     const db = client.db('your-database-name');
-    const trucks = await db.collection('trucks').find({}).toArray();
+    const packages = await db.collection('packages').find({}).toArray();
     return {
       props: {
-        trucks: JSON.parse(JSON.stringify(trucks)),
+        packages: JSON.parse(JSON.stringify(packages)),
       },
     };
   } catch (error) {
-    console.error('Failed to fetch trucks:', error);
+    console.error('Failed to fetch packages:', error);
     return {
       props: {
-        trucks: [],
+        packages: [],
       },
     };
   }

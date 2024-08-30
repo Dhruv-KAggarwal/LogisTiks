@@ -13,23 +13,23 @@ export default async function handler(req, res) {
 
     if (req.method === 'GET') {
       try {
-        const trucks = await db.collection('create-account').find({}).toArray();
-        res.status(200).json(trucks);
+        const createaccount = await db.collection('create-account').find({}).toArray();
+        res.status(200).json(createaccount);
       } catch (error) {
         console.error('Error retrieving data:', error);
         res.status(500).json({ error: 'Failed to retrieve trucks' });
       }
     } else if (req.method === 'POST') {
-      const newTruck = req.body;
-      console.log('Received new data:', newTruck);
+      const newAccount = req.body;
+      console.log('Received new data:', newAccount);
 
       try {
-        const result = await db.collection('create-account').insertOne(newTruck);
-        console.log('Inserted truck:', result.insertedId); // Use result.insertedId instead of result.ops[0]
-        res.status(201).json({ _id: result.insertedId, ...newTruck });
+        const result = await db.collection('create-account').insertOne(newAccount);
+        console.log('Inserted account:', result.insertedId); // Use result.insertedId instead of result.ops[0]
+        res.status(201).json({ _id: result.insertedId, ...newAccount });
       } catch (error) {
-        console.error('Error inserting truck:', error);
-        res.status(500).json({ error: 'Failed to insert truck' });
+        console.error('Error inserting account:', error);
+        res.status(500).json({ error: 'Failed to insert account' });
       }
     } else {
       res.status(405).end(); // Method Not Allowed

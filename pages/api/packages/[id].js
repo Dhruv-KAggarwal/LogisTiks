@@ -9,9 +9,23 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method === 'GET') {
-    const truck = await db.collection('packages').findOne({ _id: new ObjectId(id) });
-    res.status(200).json(Packages);
+    try {
+      // Fetch a specific package using its ID
+      const packages = await db.collection('packages').findOne({ _id: new ObjectId(id) });
+
+      if (!packages) {
+        // If no package is found, return a 404 error
+        return res.status(404).json({ message: 'Package not found' });
+      }
+
+      // Respond with the found package
+      res.status(200).json(packages);
+    } catch (error) {
+      // Handle errors such as invalid ObjectId format
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
   } else {
-    res.status(405).end(); // Method Not Allowed
+    // Respond with a 405 error for any non-GET requests
+    res.status(405).json({ message: 'Method Not Allowed' });
   }
 }

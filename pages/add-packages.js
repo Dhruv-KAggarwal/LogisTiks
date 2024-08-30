@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function AddTruckForm() {
+export default function AddPackagesForm() {
   const [formData, setFormData] = useState({
     operator: '',
     departure: '',
@@ -19,7 +19,7 @@ export default function AddTruckForm() {
     e.preventDefault();
     console.log('Submitting form data:', formData);
 
-    const response = await fetch('/api/trucks', {
+    const response = await fetch('/api/packages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -28,7 +28,7 @@ export default function AddTruckForm() {
     });
 
     if (response.ok) {
-      router.push('/trucks');
+      router.push('/packages');
     } else {
       console.error('Failed to submit form data');
     }
