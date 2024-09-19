@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 export function middleware(req) {
   const url = req.nextUrl.clone();
+  console.log(url);
+  
   const token = req.cookies.get('auth_token'); // Adjust based on how you store the auth token
 
   console.log('Middleware triggered');
